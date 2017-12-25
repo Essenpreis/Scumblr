@@ -543,6 +543,12 @@ class ScumblrTask::GithubAnalyzer < ScumblrTask::Base
 
         begin
           # If the scope is a repo, we need to set a different query string
+          # TODO: MOFIFY here in order to support regex searches
+          # Idea: 
+          # 1. Include whole GitRob.DataManager and ClientManager, init with logins..., 
+          # 2. finally call def download_blob(blob), 
+          # 3. then do GitRob.BlobObserver. observe_with_content_regex_signature(blob, signature, blob_string)
+          
           if type == "repo"
             response = RestClient.get URI.escape("#{@github_api_endpoint}/search/code?q=#{term.strip}+in:#{@options[:scope]}+repo:#{scope}&access_token=#{@github_oauth_token}"), :accept => "application/vnd.github.v3.text-match+json"
           else
